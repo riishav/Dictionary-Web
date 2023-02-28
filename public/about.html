@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+        integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <!-- Adding custom css -->
+    <!-- <link rel="stylesheet" href="custom.css"> -->
+
+    <title>About WordopediA</title>
+</head>
+ <!-- Adding css here -->
+ <style>
+    .containerabout {
+        background-color: rgb(109, 218, 69);
+        color: white;
+        margin: 23px;
+        padding: 23px;
+        border-radius: 50px;
+       
+    }
+    /* css for dark mode website */
+
+    :root{
+        --primary-color:black;
+        --secondary-color: white;
+    }
+    .darkmode{
+        --primary-color:white;
+        --secondary-color: black;
+    }
+    body{
+        background-color: var(--primary-color);
+        color: var(--secondary-color);
+    }
+    
+</style>
+
+<body>
+    <!-- original -->
+    <div class="background-container">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">Wordopedia Dictionary </a>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="./index.html">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./about.html">About </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Games </a>
+                    </li>
+                    <li class="nav-item wordoftheday">
+                        <a class="nav-link" href="#">wordoftheday <span class="sr-only">(current)</span></a>
+                    </li>
+                </ul>
+                <button id="toggle-button"> Toggle Theme</button>
+            </div>
+        </nav>
+    
+        <div class="containerabout">
+            <p>
+                This online dictionary is built using HTML, CSS, BOOTSTRAP, RAPID API and JavaScript.
+                For the backend I've used dictionary api from rapidAPI and used little bit of nodejs 
+                to connect to the server . Frontend is built maily using html and bootstrap with somewhat additional css. 
+            </p>
+        </div>
+    
+        <div class="container my-4">
+            <h2 class="text-center">Dictionary : Search for the KEYWORD</h2>
+            <form>
+                <div class="form-group">
+                    <label for="word">Enter the word</label>
+                    <input type="text" class="form-control" id="word" aria-describedby="emailHelp">
+    
+                </div>
+    
+                <button id="submit" type="submit" class="btn btn-primary">Submit</button>
+            </form>
+    
+            <h2 class="mt-4">Results </h2>
+            <p id="result">Choose a word and click SUBMIT for the meaning</p>
+        </div>
+    </div>
+
+
+
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
+        crossorigin="anonymous"></script>
+
+    <script>
+        submit.addEventListener('click', (e) => {
+            e.preventDefault()
+
+            let url = `http://localhost:3000/searchword?entry=${word.value}`
+            let r = fetch(url)
+            r.then((response) => {
+                return response.json()
+            }).then((resp) => {
+                console.log(resp)
+                let htmlstr = `You searched for word :<b> ${resp.entry}</b> <br>
+            Here are the meanings <ul>`
+                for (let index = 0; index < resp.theme.length; index++) {
+                    const element = resp.theme[index];
+                    htmlstr += `<li> ${resp.theme[index]}</li>`
+                }
+                htmlstr += "</ul>"
+
+
+                //  <li> ${resp.theme.length>1?resp.theme[1]:"-"}</li>
+                //  <li> ${resp.theme.length>2?resp.theme[2]:"-"}</li>
+                //  <li> ${resp.theme.length>3?resp.theme[3]:"-"}</li>
+                //  <li> ${resp.theme.length>4?resp.theme[4]:"-"}</li>
+                //  <li> ${resp.theme.length>5?resp.theme[5]:"-"}</li>
+                //  <li> ${resp.theme.length>6?resp.theme[6]:"-"}</li>
+                //  <li> ${resp.theme.length>7?resp.theme[7]:"-"}</li>
+                result.innerHTML = htmlstr
+                return resp
+            })
+        })
+
+        // adding script for dark mode toggle button
+        let btn = document.getElementById('toggle-button');
+        btn.onclick= () =>{
+            document.body.classList.toggle('darkmode');
+        }
+    </script>
+</body>
+
+</html>
